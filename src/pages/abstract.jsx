@@ -1,5 +1,7 @@
 import React from "react";
 import Layout from "./Layout";
+import { motion } from "framer-motion";
+
 const articleData = {
   volume: 35,
   issue: 4,
@@ -52,107 +54,149 @@ const articleData = {
 };
 
 const ArticleDetail = () => {
+  const containerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+  };
+
   return (
     <Layout>
-      <div className="bg-[#fdfaf1] p-6 border border-gray-400 rounded-lg shadow-lg relative max-w-4xl w-full">
-        <div className="">
-          <img
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-e8m2Lz064uW5bU5x1g8U0B2QdM4L7k.png"
-            alt="Watermark"
-            className="absolute inset-0 m-auto w-1/2 h-1/2 object-contain opacity-5 z-0"
-          />
-          <div className="relative z-10">
-            <div className="text-2xl font-bold text-gray-800 mb-2 space-y-2">
-              <h2 className="text-2xl font-bold text-gray-800 pt-2">
-                Volume {articleData.volume}, No. ({articleData.issue}),{" "}
-                {articleData.year}, {articleData.month}
-              </h2>
-              <p className="text-gray-600">
-                (Impact Factor, {articleData.impactFactor}; JCR{" "}
-                {articleData.jcr})
-              </p>
-            </div>
-
-            <hr className="border-b-2 border-orange-500 mb-4" />
-
-            <div className="flex justify-end items-center space-x-4 mb-6 border-b-2 border-dotted border-gray-400 pb-4">
-              <a
-                href={articleData.pdfUrl}
-                className="flex items-center text-red-700 hover:underline"
+      <div className="bg-gray-50 font-sans">
+        <motion.div
+          className="bg-[#fdfaf1] p-6 border border-gray-400 rounded-lg shadow-lg relative max-w-4xl w-full"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <div className="">
+            <img
+              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-e8m2Lz064uW5bU5x1g8U0B2QdM4L7k.png"
+              alt="Watermark"
+              className="absolute inset-0 m-auto w-1/2 h-1/2 object-contain opacity-5 z-0"
+            />
+            <div className="relative z-10">
+              <motion.div
+                className="text-2xl font-bold text-gray-800 mb-2 space-y-2"
+                variants={itemVariants}
               >
-                <img
-                  src="https://www.thejaps.org.pk/images/pdf.png"
-                  alt="PDF Icon"
-                  className="h-6 mr-2"
-                />
-                Download PDF
-              </a>
-              <a
-                href={articleData.fullTextUrl}
-                className="flex items-center text-orange-600 hover:underline"
-              >
-                <img
-                  src="https://www.thejaps.org.pk/images/text.png"
-                  alt="Text Icon"
-                  className="h-6 mr-2"
-                />
-                Full Text Page
-              </a>
-            </div>
-
-            <h1 className="text-lg font-bold text-blue-900 uppercase mb-4 leading-tight">
-              {articleData.title}
-            </h1>
-
-            <div className="mb-4">
-              {articleData.authors.map((author, index) => (
-                <span key={index} className="text-gray-800 font-semibold">
-                  {author.name}
-                  <sup>{author.superscript}</sup>
-                  {index < articleData.authors.length - 1 ? ", " : ""}
-                </span>
-              ))}
-            </div>
-
-            <div className="space-y-1 text-sm text-gray-700 mb-4">
-              {articleData.affiliations.map((aff) => (
-                <p key={aff.id}>
-                  <sup>{aff.id}</sup>
-                  {aff.text}
+                <h2 className="text-2xl font-bold text-gray-800 pt-2">
+                  Volume {articleData.volume}, No. ({articleData.issue}),{" "}
+                  {articleData.year}, {articleData.month}
+                </h2>
+                <p className="text-gray-600">
+                  (Impact Factor, {articleData.impactFactor}; JCR{" "}
+                  {articleData.jcr})
                 </p>
-              ))}
-            </div>
+              </motion.div>
 
-            <div className="text-sm text-gray-700 space-y-1 mb-8">
-              <p>
-                <sup>*</sup>Corresponding author’s Email:{" "}
+              <hr className="border-b-2 border-orange-500 mb-4" />
+
+              <motion.div
+                className="flex justify-end items-center space-x-4 mb-6 border-b-2 border-dotted border-gray-400 pb-4"
+                variants={itemVariants}
+              >
                 <a
-                  href={`mailto:${articleData.correspondingAuthorEmail}`}
-                  className="text-blue-600 hover:underline"
+                  href={articleData.pdfUrl}
+                  className="flex items-center text-red-700 hover:underline"
                 >
-                  {articleData.correspondingAuthorEmail}
+                  <img
+                    src="https://www.thejaps.org.pk/images/pdf.png"
+                    alt="PDF Icon"
+                    className="h-6 mr-2"
+                  />
+                  Download PDF
                 </a>
-              </p>
-              <p>ORCID ID: {articleData.orcidId}</p>
-            </div>
+                <a
+                  href={articleData.fullTextUrl}
+                  className="flex items-center text-orange-600 hover:underline"
+                >
+                  <img
+                    src="https://www.thejaps.org.pk/images/text.png"
+                    alt="Text Icon"
+                    className="h-6 mr-2"
+                  />
+                  Full Text Page
+                </a>
+              </motion.div>
 
-            <div className="border-t border-b border-gray-300 py-6">
-              <h3 className="text-2xl font-bold text-gray-800 border-b-2 border-orange-500 pb-2 mb-6">
-                ABSTRACT
-              </h3>
-              <p className="text-justify leading-relaxed text-sm">
-                {articleData.abstract}
-              </p>
-            </div>
+              <motion.h1
+                className="text-lg font-bold text-blue-900 uppercase mb-4 leading-tight"
+                variants={itemVariants}
+              >
+                {articleData.title}
+              </motion.h1>
 
-            <div className="mt-6">
-              <strong className="text-blue-900">Keywords:</strong>
-              <span className="text-gray-700 ml-2">
-                {articleData.keywords.join(", ")}
-              </span>
+              <motion.div className="mb-4" variants={itemVariants}>
+                {articleData.authors.map((author, index) => (
+                  <span key={index} className="text-gray-800 font-semibold">
+                    {author.name}
+                    <sup>{author.superscript}</sup>
+                    {index < articleData.authors.length - 1 ? ", " : ""}
+                  </span>
+                ))}
+              </motion.div>
+
+              <motion.div
+                className="space-y-1 text-sm text-gray-700 mb-4"
+                variants={itemVariants}
+              >
+                {articleData.affiliations.map((aff) => (
+                  <p key={aff.id}>
+                    <sup>{aff.id}</sup>
+                    {aff.text}
+                  </p>
+                ))}
+              </motion.div>
+
+              <motion.div
+                className="text-sm text-gray-700 space-y-1 mb-8"
+                variants={itemVariants}
+              >
+                <p>
+                  <sup>*</sup>Corresponding author’s Email:{" "}
+                  <a
+                    href={`mailto:${articleData.correspondingAuthorEmail}`}
+                    className="text-blue-600 hover:underline"
+                  >
+                    {articleData.correspondingAuthorEmail}
+                  </a>
+                </p>
+                <p>ORCID ID: {articleData.orcidId}</p>
+              </motion.div>
+
+              <motion.div
+                className="border-t border-b border-gray-300 py-6"
+                variants={itemVariants}
+              >
+                <h3 className="text-2xl font-bold text-gray-800 border-b-2 border-orange-500 pb-2 mb-6">
+                  ABSTRACT
+                </h3>
+                <p className="text-justify leading-relaxed text-sm">
+                  {articleData.abstract}
+                </p>
+              </motion.div>
+
+              <motion.div className="mt-6" variants={itemVariants}>
+                <strong className="text-blue-900">Keywords:</strong>
+                <span className="text-gray-700 ml-2">
+                  {articleData.keywords.join(", ")}
+                </span>
+              </motion.div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </Layout>
   );

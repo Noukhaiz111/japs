@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import { Link, useLocation } from "react-router-dom"; // React Router
+import { Link, useLocation } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Layout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -26,8 +27,19 @@ const Layout = ({ children }) => {
     { name: "Contact Us", path: "/contact" },
   ];
 
+  const sidebarVariants = {
+    open: { x: 0 },
+    closed: { x: "-100%" },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, x: -50 },
+    visible: { opacity: 1, x: 0 },
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
+      {/* Header */}
       <header className="relative h-32 bg-gradient-to-r from-green-700 via-green-600 to-green-500 overflow-hidden shadow-lg">
         <div
           className="absolute inset-0 opacity-20"
@@ -44,99 +56,191 @@ const Layout = ({ children }) => {
         </div>
         <div className="relative z-10 flex items-center h-full px-6 md:px-8">
           <div className="flex items-center mr-6">
-            <div className="w-14 h-14 bg-blue-600 rounded-full flex items-center justify-center shadow-lg text-white font-bold text-xl">
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+              className="w-14 h-14 bg-blue-600 rounded-full flex items-center justify-center shadow-lg text-white font-bold text-xl"
+            >
               dp
-            </div>
+            </motion.div>
           </div>
-          <div className="flex-1">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="flex-1"
+          >
             <h1 className="text-white text-3xl md:text-4xl font-bold italic">
               The Journal
             </h1>
             <h2 className="text-white text-base md:text-lg font-semibold tracking-wider">
               of ANIMAL and PLANT SCIENCES
             </h2>
-          </div>
-          <button
+          </motion.div>
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
             className="md:hidden ml-4 text-white"
             onClick={() => setSidebarOpen(!sidebarOpen)}
           >
             {sidebarOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
+          </motion.button>
         </div>
       </header>
-
+      {/* Main container for sidebars and content */}
       <div className="flex flex-1">
-        <div>
+        {/* Left Sidebar and Content */}
+        <div className="hidden md:flex flex-col w-64 bg-gradient-to-b from-gray-700 to-gray-800">
           <div className="bg-green-700 text-white p-4 italic text-3xl font-semibold h-20 flex items-center justify-center">
             Welcome to
           </div>
-          <aside
-            className={`fixed md:static z-20 top-0 left-0 w-64 p-2 bg-gradient-to-b from-gray-700 to-gray-800 transform ${
-              sidebarOpen ? "translate-x-0" : "-translate-x-full"
-            } md:translate-x-0 transition-transform duration-300`}
-          >
-            <nav className="py-2 overflow-y-auto h-[calc(100%-80px)]">
-              {menuItems.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.path}
-                  onClick={() => setSidebarOpen(false)}
-                  className={`block px-4 py-2 text-sm transition-colors rounded-lg mb-1 duration-200 ${
-                    location.pathname === item.path
-                      ? "bg-orange-500 text-black font-semibold"
-                      : "text-gray-300 hover:bg-gray-600 hover:text-white"
-                  }`}
-                >
-                  {item.name}
-                </Link>
-              ))}
-            </nav>
-          </aside>
-
-          <div className="flex flex-col w-full items-center">
-            <div className="w-full flex- items-center p-5">
-              <h1 className="text-[#660000]">ISSN (Print):</h1>
-              <p className="text-black text-xl font-bold">1018-7081</p>
-              <h1 className="text-[#660000]">ISSN (Electronic):</h1>
-              <p className="text-black text-xl font-bold">2309-8694</p>
-            </div>
-
-            <Link
-              to="/japs-login"
-              className="hidden md:block bg-[#0d6fff] hover:bg-[#0b5ed7] text-white mt-2 font-bold py-2 px-6 rounded shadow-lg transition-all duration-200 ml-4"
+          <nav className="p-2 overflow-y-auto flex-1">
+            <motion.ul
+              initial="hidden"
+              animate="visible"
+              variants={{
+                visible: {
+                  transition: { staggerChildren: 0.05 },
+                },
+              }}
             >
-              Submit Paper
-            </Link>
+              {menuItems.map((item, index) => (
+                <motion.li key={item.name} variants={itemVariants}>
+                  <Link
+                    to={item.path}
+                    className={`block px-4 py-2 text-sm transition-colors rounded-lg mb-1 duration-200 ${
+                      location.pathname === item.path
+                        ? "bg-orange-500 text-black font-semibold"
+                        : "text-gray-300 hover:bg-gray-600 hover:text-white"
+                    }`}
+                  >
+                    {item.name}
+                  </Link>
+                </motion.li>
+              ))}
+            </motion.ul>
+          </nav>
+          <div className="flex flex-col w-full items-center p-5 bg-white text-black">
+            <div className="w-full">
+              <h1 className="text-[#660000] text-sm">ISSN (Print):</h1>
+              <p className="text-xl font-bold mb-2">1018-7081</p>
+              <h1 className="text-[#660000] text-sm">ISSN (Electronic):</h1>
+              <p className="text-xl font-bold">2309-8694</p>
+            </div>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link
+                to="/japs-login"
+                className="bg-[#0d6fff] hover:bg-[#0b5ed7] text-white mt-4 font-bold py-2 px-6 rounded shadow-lg transition-all duration-200 block text-center"
+              >
+                Submit Paper
+              </Link>
+            </motion.div>
           </div>
         </div>
-
+        {/* Mobile Sidebar */}
+        <AnimatePresence>
+          {sidebarOpen && (
+            <motion.aside
+              variants={sidebarVariants}
+              initial="closed"
+              animate="open"
+              exit="closed"
+              transition={{ type: "tween" }}
+              className="fixed inset-y-0 left-0 z-50 w-64 p-2 bg-gradient-to-b from-gray-700 to-gray-800"
+            >
+              <nav className="py-2 overflow-y-auto h-full">
+                <div className="flex justify-end p-2">
+                  <button
+                    onClick={() => setSidebarOpen(false)}
+                    className="text-white"
+                  >
+                    <X size={28} />
+                  </button>
+                </div>
+                <motion.ul
+                  initial="hidden"
+                  animate="visible"
+                  variants={{
+                    visible: {
+                      transition: { staggerChildren: 0.05 },
+                    },
+                  }}
+                >
+                  {menuItems.map((item, index) => (
+                    <motion.li key={item.name} variants={itemVariants}>
+                      <Link
+                        to={item.path}
+                        onClick={() => setSidebarOpen(false)}
+                        className={`block px-4 py-2 text-sm transition-colors rounded-lg mb-1 duration-200 ${
+                          location.pathname === item.path
+                            ? "bg-orange-500 text-black font-semibold"
+                            : "text-gray-300 hover:bg-gray-600 hover:text-white"
+                        }`}
+                      >
+                        {item.name}
+                      </Link>
+                    </motion.li>
+                  ))}
+                </motion.ul>
+              </nav>
+            </motion.aside>
+          )}
+        </AnimatePresence>
+        {/* Main Content */}
         <main className="flex-1 flex flex-col">
           <div className="flex justify-between items-center h-20 bg-[#f0ead6] p-4 md:p-6 border-b border-gray-300">
             <div className="flex-1">
-              <h3 className="text-2xl font-semibold text-green-800">
+              <motion.h3
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="text-2xl font-semibold text-green-800"
+              >
                 Journal of Animal and Plant Sciences
-              </h3>
-              <p className="text-red-600 italic mt-1">
+              </motion.h3>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                className="text-red-600 italic mt-1"
+              >
                 Journal of Animal and Plant Sciences is a fully open access
                 journal
-              </p>
+              </motion.p>
             </div>
-            <Link
-              to="/japs-login"
-              className="hidden md:block bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2 px-6 rounded shadow-lg transition-all duration-200 ml-4"
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="hidden md:block"
             >
-              Submit Paper
-            </Link>
+              <Link
+                to="/japs-login"
+                className="bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2 px-6 rounded shadow-lg transition-all duration-200 ml-4"
+              >
+                Submit Paper
+              </Link>
+            </motion.div>
           </div>
           <div className="p-4 md:p-6 bg-white flex-1">{children}</div>
         </main>
-
-        <div className="h-screen">
-          <aside className="hidden md:block w-48 bg-[#F5F5DC] p-4 border-l-2 border-gray-200 h-4/5">
-            <div className="border-2 border-yellow-700 bg-[#f0ead6] p-3 text-center h-full flex flex-col justify-around">
-              <div>
+        {/* Right Sidebar */}
+        <div className="h-screen hidden md:block">
+          <aside className="w-48 bg-[#F5F5DC] p-4 border-l-2 border-gray-200 h-full">
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.8, type: "spring", stiffness: 100 }}
+              className="border-2 border-yellow-700 bg-[#f0ead6] p-3 text-center h-full flex flex-col justify-around"
+            >
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1 }}
+              >
                 <Link to="/volumes">
-                  <img
+                  <motion.img
+                    whileHover={{ scale: 1.05 }}
                     src="./Images/japs1.jpg"
                     alt="JAPS Cover"
                     className="w-32 mx-auto border-4 border-yellow-700 shadow-md"
@@ -146,23 +250,25 @@ const Layout = ({ children }) => {
                     <br /> August
                   </p>
                 </Link>
-              </div>
-
+              </motion.div>
               <hr className="border-t-2 border-dashed border-yellow-700 my-4" />
-
-              <div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.2 }}
+              >
                 <p className="font-bold text-black text-lg">
                   Impact Factor
                   <br />
                   <span className="text-2xl">0.6</span>
                 </p>
                 <p className="text-red-700 font-bold mt-2">JCR 2024</p>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           </aside>
         </div>
       </div>
-
+      {/* Footer */}
       <footer className="bg-[#666666] text-white py-2 mt-2">
         <div className="container mx-auto px-6 text-center text-sm md:text-base">
           <p className="mt-2">Designe and Maintained by HISoft Solutions</p>

@@ -1,5 +1,7 @@
 import React from "react";
 import Layout from "./Layout";
+import { motion } from "framer-motion";
+
 const editorialData = {
   chiefEditor: {
     name: "Prof. Dr. Khalid Javed",
@@ -176,60 +178,98 @@ const EditorialBoard = () => {
     for (let i = 0; i < members.length; i += 2) {
       pairs.push(members.slice(i, i + 2));
     }
-    return pairs.map((pair, index) => (
-      <div
-        key={index}
-        className="flex flex-col md:flex-row justify-between mb-2"
+
+    const containerVariants = {
+      hidden: { opacity: 0 },
+      visible: {
+        opacity: 1,
+        transition: {
+          staggerChildren: 0.1,
+        },
+      },
+    };
+
+    const itemVariants = {
+      hidden: { y: 20, opacity: 0 },
+      visible: { y: 0, opacity: 1, transition: { duration: 0.5 } },
+    };
+
+    return (
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
       >
-        {pair.map((member, subIndex) => (
-          <div
-            key={subIndex}
-            className="p-2 border border-gray-300 w-full md:w-[48%] mb-2 md:mb-0"
+        {pairs.map((pair, index) => (
+          <motion.div
+            key={index}
+            className="flex flex-col md:flex-row justify-between mb-2"
+            variants={itemVariants}
           >
-            {member.title && (
-              <p className="text-blue-800 font-bold text-sm mb-1">
-                {member.title}
-              </p>
-            )}
-            <p className="font-bold text-xs">{member.name}</p>
-            {member.affiliation.split("\n").map((line, lineIndex) => (
-              <p key={lineIndex} className="text-xs">
-                {line}
-              </p>
+            {pair.map((member, subIndex) => (
+              <motion.div
+                key={subIndex}
+                className="p-2 border border-gray-300 w-full md:w-[48%] mb-2 md:mb-0"
+                whileHover={{
+                  scale: 1.02,
+                  boxShadow: "0px 5px 15px rgba(0,0,0,0.1)",
+                }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                {member.title && (
+                  <p className="text-blue-800 font-bold text-sm mb-1">
+                    {member.title}
+                  </p>
+                )}
+                <p className="font-bold text-xs">{member.name}</p>
+                {member.affiliation.split("\n").map((line, lineIndex) => (
+                  <p key={lineIndex} className="text-xs">
+                    {line}
+                  </p>
+                ))}
+              </motion.div>
             ))}
-          </div>
+            {pair.length < 2 && (
+              <div className="hidden md:block p-2 w-[48%]"></div>
+            )}
+          </motion.div>
         ))}
-        {pair.length < 2 && <div className="hidden md:block p-2 w-[48%]"></div>}
-      </div>
-    ));
+      </motion.div>
+    );
   };
 
   return (
     <Layout>
       <div className="bg-[#fdfaf1] p-6 border border-gray-400 rounded-lg shadow-lg relative max-w-4xl w-full">
-        <div className=" text-center p-4 mb-4">
-          <h1 className="text-2xl font-bold text-gray-800 border-b-2 border-orange-500 pb-2 mb-6">
-            EDITORIAL BOARD
-          </h1>
-          <p className="text-base mt-1">{editorialData.chiefEditor.title}</p>
-          <p className="text-xl font-bold mt-1">
-            {editorialData.chiefEditor.name}
-          </p>
-        </div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+        >
+          <div className=" text-center p-4 mb-4">
+            <h1 className="text-2xl font-bold text-gray-800 border-b-2 border-orange-500 pb-2 mb-6">
+              EDITORIAL BOARD
+            </h1>
+            <p className="text-base mt-1">{editorialData.chiefEditor.title}</p>
+            <p className="text-xl font-bold mt-1">
+              {editorialData.chiefEditor.name}
+            </p>
+          </div>
 
-        <div className="mb-4">
-          <h2 className="bg-blue-800 text-white text-center font-bold p-2 text-base mb-2">
-            SUBJECT EDITORS
-          </h2>
-          {renderMembers(editorialData.subjectEditors)}
-        </div>
+          <div className="mb-4">
+            <h2 className="bg-blue-800 text-white text-center font-bold p-2 text-base mb-2">
+              SUBJECT EDITORS
+            </h2>
+            {renderMembers(editorialData.subjectEditors)}
+          </div>
 
-        <div>
-          <h2 className="bg-blue-800 text-white text-center font-bold p-2 text-base mb-2">
-            EDITORIAL BOARD MEMBERS
-          </h2>
-          {renderMembers(editorialData.editorialBoardMembers)}
-        </div>
+          <div>
+            <h2 className="bg-blue-800 text-white text-center font-bold p-2 text-base mb-2">
+              EDITORIAL BOARD MEMBERS
+            </h2>
+            {renderMembers(editorialData.editorialBoardMembers)}
+          </div>
+        </motion.div>
       </div>
     </Layout>
   );

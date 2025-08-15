@@ -1,5 +1,6 @@
 import React from "react";
 import Layout from "./Layout";
+import { motion } from "framer-motion";
 
 const articles = [
   {
@@ -46,99 +47,139 @@ const articles = [
 ];
 
 const LatestIssue = () => {
+  const containerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        delayChildren: 0.2,
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+  };
+
   return (
     <Layout>
-      <div className="bg-white p-4 md:p-6 w-full">
-        <div className="text-center mb-6">
-          <h2 className="text-xl font-semibold text-gray-700">
-            Volume 35, No. (4), 2025, August
-          </h2>
-          <p className="text-gray-600">(Impact Factor, 0.60; JCR 2024)</p>
-        </div>
+      <div className="bg-gray-50 font-sans p-4 md:p-6 w-full">
+        <motion.div
+          className="border border-gray-300 rounded-lg shadow-lg"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <div className="text-center p-4 md:p-6 bg-[#fdfaf1] rounded-t-lg">
+            <motion.h2
+              variants={itemVariants}
+              className="text-xl font-semibold text-gray-700"
+            >
+              Volume 35, No. (4), 2025, August
+            </motion.h2>
+            <motion.p variants={itemVariants} className="text-gray-600">
+              (Impact Factor, 0.60; JCR 2024)
+            </motion.p>
+          </div>
 
-        <div className="border border-gray-300">
-          <div className="p-4 border-b border-gray-300">
-            <h3 className="text-2xl font-bold text-gray-800 border-b-2 border-orange-500 pb-2 mb-6block">
+          <div className="bg-[#fdfaf1] p-4 md:p-6">
+            <motion.h3
+              variants={itemVariants}
+              className="text-2xl font-bold text-gray-800 border-b-2 border-orange-500 pb-2 mb-6"
+            >
               CONTENTS
-            </h3>
+            </motion.h3>
           </div>
 
-          <div className="bg-blue-800 text-white flex items-center p-2 font-bold">
-            <div className="flex-grow pl-10">Title (Research Paper)</div>
-            <div className="w-28 text-center">Download PDF</div>
-            <div className="w-28 text-center">Abstract</div>
-          </div>
+          <motion.div
+            variants={itemVariants}
+            className="bg-blue-800 text-white flex items-center p-3 font-bold text-xs sm:text-sm"
+          >
+            <div className="flex-grow pl-2 sm:pl-10">
+              Title (Research Paper)
+            </div>
+            <div className="w-20 sm:w-28 text-center">Download PDF</div>
+            <div className="hidden sm:block w-28 text-center">Abstract</div>
+          </motion.div>
 
-          <div className="p-4 border-b-2 border-gray-300">
-            <h4 className="text-xl font-bold text-gray-800">
+          <div className="bg-[#fdfaf1] p-4 border-b-2 border-gray-300">
+            <motion.h4
+              variants={itemVariants}
+              className="text-lg font-bold text-gray-800"
+            >
               ORIGINAL RESEARCH ARTICLES
-            </h4>
+            </motion.h4>
           </div>
 
-          <div>
+          <motion.div variants={containerVariants}>
             {articles.map((article) => (
-              <div
+              <motion.div
                 key={article.id}
-                className="flex items-start p-4 border-b border-gray-300"
+                className="flex items-start p-4 border-b border-gray-300 bg-white hover:bg-gray-50 transition-colors duration-200"
+                variants={itemVariants}
+                whileHover={{ scale: 1.01 }}
               >
-                <div className="w-8 text-gray-600 font-semibold">
+                <div className="w-6 sm:w-8 text-gray-600 font-semibold text-sm sm:text-base">
                   {article.id}
                 </div>
 
-                <div className="flex-grow pr-4">
+                <div className="flex-grow pr-2 sm:pr-4">
                   <a
                     href={article.abstractUrl}
-                    className="text-blue-700 font-semibold uppercase hover:underline"
+                    className="text-blue-700 font-semibold uppercase hover:underline text-sm sm:text-base"
                   >
                     {article.title}
                   </a>
-                  <p className="text-gray-800 mt-2">{article.authors}</p>
-                  <div className="mt-3 text-sm">
+                  <p className="text-gray-800 mt-1 sm:mt-2 text-xs sm:text-sm">
+                    {article.authors}
+                  </p>
+                  <div className="mt-2 text-xs sm:text-sm flex flex-wrap sm:hidden">
                     <a
                       href={article.abstractUrl}
-                      className="text-green-600 font-semibold hover:underline"
+                      className="text-green-600 font-semibold hover:underline mr-2"
                     >
                       Abstract
                     </a>
-                    <span className="text-gray-400 mx-2">|</span>
+                    <span className="text-gray-400">|</span>
                     <a
                       href={article.pdfUrl}
-                      className="text-green-600 font-semibold hover:underline"
+                      className="text-green-600 font-semibold hover:underline ml-2"
                     >
                       Full Text
-                    </a>
-                    <span className="text-gray-400 mx-2">|</span>
-                    <a
-                      href={article.pdfUrl}
-                      className="text-green-600 font-semibold hover:underline"
-                    >
-                      PDF
                     </a>
                   </div>
                 </div>
 
-                <div className="w-28 text-center flex justify-center">
-                  <a href={article.pdfUrl} title="Download PDF">
+                <div className="w-20 sm:w-28 text-center flex justify-center items-center">
+                  <a
+                    href={article.pdfUrl}
+                    title="Download PDF"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <img
                       src="https://www.thejaps.org.pk/images/pdf.png"
-                      alt="PDF"
-                      className="h-8"
+                      alt="PDF download icon"
+                      className="h-6 sm:h-8 transition-transform duration-200 hover:scale-110"
                     />
                   </a>
                 </div>
 
-                <div className="w-28 text-center">
+                <div className="w-28 text-center hidden sm:flex justify-center items-center">
                   <a
                     href={article.abstractUrl}
-                    className="text-green-600 font-semibold hover:underline"
+                    className="text-green-600 font-semibold hover:underline text-sm"
                   >
                     Abstract
                   </a>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </Layout>
   );

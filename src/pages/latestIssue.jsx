@@ -1,36 +1,73 @@
 import React from "react";
 import Layout from "./Layout";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+
 const LatestIssue = () => {
+  const containerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: { y: 0, opacity: 1 },
+  };
+
   return (
     <Layout>
-      <div className="bg-[#fdfaf1] p-6 border border-gray-400 rounded-lg shadow-lg relative max-w-4xl w-full">
-        <h2 className="text-2xl font-bold text-gray-800 border-b-2 border-orange-500 pb-2 mb-6">
-          LATEST ISSUE
-        </h2>
-        <div className="p-2.5 rounded-md inline-block w-full text-center">
-          <p className="text-[#8b8000] text-3xl font-bold m-0">2025</p>
-        </div>
+      <div className="bg-gray-50 font-sans">
+        <motion.div
+          className="bg-[#fdfaf1] p-6 border border-gray-400 rounded-lg shadow-lg relative max-w-4xl w-full"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <motion.h2
+            variants={itemVariants}
+            className="text-2xl font-bold text-gray-800 border-b-2 border-orange-500 pb-2 mb-6"
+          >
+            LATEST ISSUE
+          </motion.h2>
 
-        <div className="flex content-center group cursor-pointer justify-center">
-          <Link to="/volumes">
-            <img
-              src="./Images/japs1.jpg"
-              alt="The JAPS Journal Cover"
-              className="rounded-lg shadow-lg border-4 border-[#b8860b] transition-transform duration-300 ease-in-out transform group-hover:scale-105"
-            />
-          </Link>
-        </div>
+          <motion.div
+            variants={itemVariants}
+            className="p-2.5 rounded-md inline-block w-full text-center"
+          >
+            <p className="text-[#8b8000] text-3xl font-bold m-0">2025</p>
+          </motion.div>
 
-        <a href="/volumes" className="w-full text-center">
-          <p className="text-[#8b8000] text-lg mt-5 underline hover:text-amber-500 transition-colors duration-200">
-            Volume 35, No. (4), 2025, August
-          </p>
-        </a>
+          <motion.div
+            variants={itemVariants}
+            className="flex content-center group cursor-pointer justify-center"
+          >
+            <Link to="/volumes">
+              <motion.img
+                whileHover={{ scale: 1.05 }}
+                src="./Images/japs1.jpg"
+                alt="The JAPS Journal Cover"
+                className="rounded-lg shadow-lg border-4 border-[#b8860b] transition-transform duration-300 ease-in-out"
+              />
+            </Link>
+          </motion.div>
 
-        <div className="mt-7 opacity-10 text-[150px] font-bold text-[#8b8000] pointer-events-none select-none">
-          JAPS
-        </div>
+          <motion.a
+            variants={itemVariants}
+            href="/volumes"
+            className="w-full text-center"
+          >
+            <p className="text-[#8b8000] text-lg mt-5 underline hover:text-amber-500 transition-colors duration-200">
+              Volume 35, No. (4), 2025, August
+            </p>
+          </motion.a>
+        </motion.div>
       </div>
     </Layout>
   );

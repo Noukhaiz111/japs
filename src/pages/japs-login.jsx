@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react"; // useEffect ko import karein
+import { useState, useEffect } from "react";
 import { Eye, EyeOff, RefreshCw, Volume2, X, Info } from "lucide-react";
 import { Link } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 
 const backgroundImages = [
   "https://images.pexels.com/photos/12737656/pexels-photo-12737656.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", // Jellyfish
@@ -25,7 +26,7 @@ const JapsLoginPage = () => {
       setCurrentImageIndex((prevIndex) =>
         prevIndex === backgroundImages.length - 1 ? 0 : prevIndex + 1
       );
-    }, 3000);
+    }, 5000); // 5 seconds for a smoother transition
     return () => clearInterval(timer);
   }, []);
 
@@ -33,24 +34,62 @@ const JapsLoginPage = () => {
     e.preventDefault();
   };
 
+  const fadeInOutVariants = {
+    initial: { opacity: 0 },
+    animate: { opacity: 1 },
+    exit: { opacity: 0 },
+  };
+
+  const slideInUpVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 10,
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const loginFormVariants = {
+    hidden: { opacity: 0, scale: 0.95 },
+    visible: { opacity: 1, scale: 1, transition: { duration: 0.5 } },
+  };
+
+  const linkHoverVariants = {
+    hover: { scale: 1.05, boxShadow: "0px 4px 10px rgba(0,0,0,0.1)" },
+    tap: { scale: 0.95 },
+  };
+
   return (
     <div className="min-h-screen flex bg-white font-sans">
       <div className="hidden md:flex md:w-2/5 relative p-12 flex-col text-white overflow-hidden">
-        {backgroundImages.map((imageUrl, index) => (
-          <div
-            key={index}
-            className="absolute inset-0 bg-cover bg-center transition-opacity duration-1000"
+        <AnimatePresence>
+          <motion.div
+            key={currentImageIndex}
+            className="absolute inset-0 bg-cover bg-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1 }}
             style={{
-              backgroundImage: `url('${imageUrl}')`,
-              opacity: index === currentImageIndex ? 1 : 0,
+              backgroundImage: `url('${backgroundImages[currentImageIndex]}')`,
             }}
           />
-        ))}
+        </AnimatePresence>
 
         <div className="absolute inset-0 bg-blue-900/70" />
 
         <div className="relative z-10 flex flex-col h-full">
-          <div className="flex items-center mb-12">
+          <motion.div
+            className="flex items-center mb-12"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+          >
             <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mr-4 text-blue-900 font-bold text-xl shadow-md">
               dp
             </div>
@@ -62,9 +101,14 @@ const JapsLoginPage = () => {
                 ANIMAL AND PLANT SCIENCES
               </h1>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="flex-grow flex flex-col justify-center">
+          <motion.div
+            className="flex-grow flex flex-col justify-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.5 }}
+          >
             <h2 className="text-3xl font-bold mb-6">Publication procedure</h2>
             <p className="leading-relaxed opacity-90">
               Manuscripts are accepted for publication on the understanding that
@@ -72,48 +116,70 @@ const JapsLoginPage = () => {
               publication elsewhere. The Editor will assume that all named
               authors agree with the contents and form of the paper.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="flex justify-center space-x-2 mt-12">
+          <motion.div
+            className="flex justify-center space-x-2 mt-12"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6, duration: 0.5 }}
+          >
             {backgroundImages.map((_, index) => (
               <div
                 key={index}
-                className={`w-3 h-3 rounded-full transition-opacity duration-300 ${
+                className={`w-3 h-3 rounded-full transition-all duration-500 ${
                   index === currentImageIndex
-                    ? "bg-white opacity-100"
-                    : "bg-white opacity-50"
+                    ? "bg-white scale-125"
+                    : "bg-white/50"
                 }`}
               />
             ))}
-          </div>
+          </motion.div>
         </div>
       </div>
 
       <div className="w-full md:w-3/5 flex flex-col">
         <div className="flex justify-end items-center p-6 space-x-4">
-          <Link
-            to="/about"
-            className="text-xs font-semibold text-blue-600 border border-blue-600 rounded-full px-4 py-1.5 hover:bg-blue-50 transition-colors"
+          <motion.div
+            variants={linkHoverVariants}
+            whileHover="hover"
+            whileTap="tap"
           >
-            About The Journal
-          </Link>
-          <Link
-            to="/contact"
-            className="text-xs font-semibold text-teal-600 border border-teal-600 rounded-full px-4 py-1.5 hover:bg-teal-50 transition-colors"
+            <Link
+              to="/about"
+              className="text-xs font-semibold text-blue-600 border border-blue-600 rounded-full px-4 py-1.5 hover:bg-blue-50 transition-colors"
+            >
+              About The Journal
+            </Link>
+          </motion.div>
+          <motion.div
+            variants={linkHoverVariants}
+            whileHover="hover"
+            whileTap="tap"
           >
-            Contact Us
-          </Link>
+            <Link
+              to="/contact"
+              className="text-xs font-semibold text-teal-600 border border-teal-600 rounded-full px-4 py-1.5 hover:bg-teal-50 transition-colors"
+            >
+              Contact Us
+            </Link>
+          </motion.div>
         </div>
 
         <div className="flex-1 flex items-center justify-center p-6 md:p-12">
-          <div className="w-full max-w-sm">
+          <motion.div
+            className="w-full max-w-sm"
+            variants={loginFormVariants}
+            initial="hidden"
+            animate="visible"
+          >
             <h1 className="text-2xl font-bold text-gray-800 mb-1">Welcome!</h1>
             <p className="text-gray-500 mb-8">
               Sign in to your account and submit your manuscripts.
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-8">
-              <div>
+              <motion.div variants={slideInUpVariants}>
                 <label className="text-xs font-semibold text-gray-600">
                   Email
                 </label>
@@ -124,9 +190,9 @@ const JapsLoginPage = () => {
                   className="w-full py-2 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-blue-500 transition-colors"
                   required
                 />
-              </div>
+              </motion.div>
 
-              <div>
+              <motion.div variants={slideInUpVariants}>
                 <label className="text-xs font-semibold text-gray-600">
                   Password
                 </label>
@@ -146,9 +212,12 @@ const JapsLoginPage = () => {
                     {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
                 </div>
-              </div>
+              </motion.div>
 
-              <div className="flex items-center">
+              <motion.div
+                variants={slideInUpVariants}
+                className="flex items-center"
+              >
                 <input
                   type="checkbox"
                   id="keepLoggedIn"
@@ -162,9 +231,9 @@ const JapsLoginPage = () => {
                 >
                   Keep me logged in
                 </label>
-              </div>
+              </motion.div>
 
-              <div className="space-y-3">
+              <motion.div variants={slideInUpVariants} className="space-y-3">
                 <div className="flex items-center space-x-2">
                   <div className="border border-gray-300 rounded p-1 flex-1">
                     <img
@@ -173,18 +242,22 @@ const JapsLoginPage = () => {
                       className="w-full h-10 object-cover"
                     />
                   </div>
-                  <button
+                  <motion.button
                     type="button"
                     className="p-2.5 border rounded text-gray-500 hover:bg-gray-100"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
                   >
                     <RefreshCw size={16} />
-                  </button>
-                  <button
+                  </motion.button>
+                  <motion.button
                     type="button"
                     className="p-2.5 border rounded text-gray-500 hover:bg-gray-100"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
                   >
                     <Volume2 size={16} />
-                  </button>
+                  </motion.button>
                 </div>
                 <input
                   type="text"
@@ -192,34 +265,49 @@ const JapsLoginPage = () => {
                   className="w-full py-2 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-blue-500 transition-colors"
                   required
                 />
-              </div>
+              </motion.div>
 
-              <div className="flex justify-end">
-                <button
+              <motion.div
+                variants={slideInUpVariants}
+                className="flex justify-end"
+              >
+                <motion.button
                   type="submit"
                   className="bg-blue-600 text-white py-2 px-8 rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors font-medium"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   Login
-                </button>
-              </div>
+                </motion.button>
+              </motion.div>
             </form>
 
-            {showCredentialsMessage && (
-              <div className="mt-6 flex items-center justify-between bg-blue-50 border-l-4 border-blue-400 rounded-r-md p-3">
-                <div className="flex items-center">
-                  <Info className="w-5 h-5 text-blue-600 mr-2" />
-                  <span className="text-blue-800 text-sm">
-                    Please enter your credentials
-                  </span>
-                </div>
-                <button
-                  onClick={() => setShowCredentialsMessage(false)}
-                  className="text-gray-400 hover:text-gray-600"
+            <AnimatePresence>
+              {showCredentialsMessage && (
+                <motion.div
+                  className="mt-6 flex items-center justify-between bg-blue-50 border-l-4 border-blue-400 rounded-r-md p-3"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.3 }}
                 >
-                  <X size={16} />
-                </button>
-              </div>
-            )}
+                  <div className="flex items-center">
+                    <Info className="w-5 h-5 text-blue-600 mr-2" />
+                    <span className="text-blue-800 text-sm">
+                      Please enter your credentials
+                    </span>
+                  </div>
+                  <motion.button
+                    onClick={() => setShowCredentialsMessage(false)}
+                    className="text-gray-400 hover:text-gray-600"
+                    whileHover={{ rotate: 90 }}
+                    whileTap={{ scale: 0.9 }}
+                  >
+                    <X size={16} />
+                  </motion.button>
+                </motion.div>
+              )}
+            </AnimatePresence>
 
             <div className="text-center mt-6">
               <a
@@ -245,7 +333,7 @@ const JapsLoginPage = () => {
                 Sign Up
               </Link>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>

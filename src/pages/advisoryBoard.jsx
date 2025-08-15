@@ -1,5 +1,6 @@
 import React from "react";
 import Layout from "./Layout";
+import { motion } from "framer-motion";
 
 const AdvisoryBoard = () => {
   const boardMembers = [
@@ -55,25 +56,58 @@ const AdvisoryBoard = () => {
     },
   ];
 
+  const containerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const memberVariants = {
+    hidden: { x: -20, opacity: 0 },
+    visible: { x: 0, opacity: 1, transition: { duration: 0.5 } },
+  };
+
   return (
     <Layout>
-      <div className="bg-[#fdfaf1] p-6 border border-gray-400 rounded-lg shadow-lg relative max-w-4xl w-full">
-        <h2 className="text-2xl font-bold text-gray-800 border-b-2 border-orange-500 pb-2 mb-6">
-          ADVISORY BOARD
-        </h2>
+      <div className="bg-gray-50 font-sans">
+        <motion.div
+          className="bg-[#fdfaf1] p-6 border border-gray-400 rounded-lg shadow-lg relative max-w-4xl w-full"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <motion.h2
+            variants={memberVariants}
+            className="text-2xl font-bold text-gray-800 border-b-2 border-orange-500 pb-2 mb-6"
+          >
+            ADVISORY BOARD
+          </motion.h2>
 
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-10 pointer-events-none select-none"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-10 pointer-events-none select-none"></div>
 
-        {boardMembers.map((member, index) => (
-          <div key={index} className="mb-4">
-            <h3 className="text-[#4682b4] text-md m-0 font-bold">
-              {member.name}
-            </h3>
-            <p className="text-black text-sm m-0 pl-2.5">
-              {member.affiliation}
-            </p>
-          </div>
-        ))}
+          <motion.div variants={containerVariants}>
+            {boardMembers.map((member, index) => (
+              <motion.div
+                key={index}
+                className="mb-4"
+                variants={memberVariants}
+              >
+                <h3 className="text-[#4682b4] text-md m-0 font-bold">
+                  {member.name}
+                </h3>
+                <p className="text-black text-sm m-0 pl-2.5">
+                  {member.affiliation}
+                </p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </motion.div>
       </div>
     </Layout>
   );

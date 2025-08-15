@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Layout from "./Layout";
+import { motion } from "framer-motion";
 
 const JournalArchives = () => {
   const [archives, setArchives] = useState({});
@@ -157,36 +158,80 @@ const JournalArchives = () => {
     window.open(url, "_blank");
   };
 
+  const containerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const yearVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: { y: 0, opacity: 1, transition: { duration: 0.6 } },
+  };
+
+  const volumeVariants = {
+    hidden: { scale: 0.9, opacity: 0 },
+    visible: { scale: 1, opacity: 1 },
+  };
+
   return (
     <Layout>
-      <div className="bg-[#fdfaf1] p-6 border border-gray-400 rounded-lg shadow-lg relative max-w-4xl w-full">
-        <h2 className="text-2xl font-bold text-gray-800 border-b-2 border-orange-500 pb-2 mb-6">
-          JOURNAL ARCHIVES
-        </h2>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-10 pointer-events-none select-none"></div>
+      <div className="bg-gray-50 font-sans">
+        <motion.div
+          className="bg-[#fdfaf1] p-6 border border-gray-400 rounded-lg shadow-lg relative max-w-4xl w-full"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <motion.h2
+            variants={yearVariants}
+            className="text-2xl font-bold text-gray-800 border-b-2 border-orange-500 pb-2 mb-6"
+          >
+            JOURNAL ARCHIVES
+          </motion.h2>
 
-        {Object.entries(archives).map(([year, volumes]) => (
-          <div key={year} className="mb-5 relative">
-            <div className="bg-[#e6dbbf] p-2 text-xl text-[#8b8000] font-bold text-center mb-2">
-              {year}
-            </div>
-            <div className="flex flex-wrap justify-start gap-4">
-              {volumes.map((volume) => (
-                <a
-                  key={volume.id}
-                  href="/volumes"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleLinkClick(volume.id);
-                  }}
-                  className="text-sm text-[#4682b4] no-underline whitespace-nowrap cursor-pointer p-1 hover:underline hover:text-[#38668c]"
-                >
-                  {volume.text}
-                </a>
-              ))}
-            </div>
-          </div>
-        ))}
+          {Object.entries(archives).map(([year, volumes]) => (
+            <motion.div
+              key={year}
+              className="mb-5 relative"
+              variants={yearVariants}
+            >
+              <motion.div
+                className="bg-[#e6dbbf] p-2 text-xl text-[#8b8000] font-bold text-center mb-2"
+                variants={yearVariants}
+              >
+                {year}
+              </motion.div>
+              <motion.div
+                className="flex flex-wrap justify-start gap-4"
+                variants={containerVariants}
+              >
+                {volumes.map((volume) => (
+                  <motion.a
+                    key={volume.id}
+                    href="/volumes"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleLinkClick(volume.id);
+                    }}
+                    className="text-sm text-[#4682b4] no-underline whitespace-nowrap cursor-pointer p-1 hover:underline hover:text-[#38668c]"
+                    variants={volumeVariants}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    {volume.text}
+                  </motion.a>
+                ))}
+              </motion.div>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
     </Layout>
   );
