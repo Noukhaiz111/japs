@@ -1,5 +1,5 @@
-import React from 'react';
-import Layout from './Layout';
+import React from "react";
+import Layout from "./Layout";
 const editorialData = {
   chiefEditor: {
     name: "Prof. Dr. Khalid Javed",
@@ -19,7 +19,8 @@ const editorialData = {
     {
       title: "Environmental Sciences & Climate Change",
       name: "Dr. Saeed Ahmad Asad",
-      affiliation: "Center for Climate Research and Development (CCRD), COMSAT University Islamabad",
+      affiliation:
+        "Center for Climate Research and Development (CCRD), COMSAT University Islamabad",
     },
     {
       title: "Agronomy",
@@ -29,12 +30,14 @@ const editorialData = {
     {
       title: "Soil Science",
       name: "Dr. Muhammad Sanaullah",
-      affiliation: "Institute of Soil and Environmental Sciences, University of Agriculture Faisalabad",
+      affiliation:
+        "Institute of Soil and Environmental Sciences, University of Agriculture Faisalabad",
     },
     {
       title: "Plant Breeding & Biotechnology",
       name: "Dr. Khurram Bashir",
-      affiliation: "Syed Babar Ali School of Science and Technology, LUMS, Lahore",
+      affiliation:
+        "Syed Babar Ali School of Science and Technology, LUMS, Lahore",
     },
     {
       title: "Animal Sciences",
@@ -55,11 +58,13 @@ const editorialData = {
   editorialBoardMembers: [
     {
       name: "Dr. A. S. Chaudhry,",
-      affiliation: "School of Agri., Food & Rural Development, University of Newcastle Upon Tyne, UK",
+      affiliation:
+        "School of Agri., Food & Rural Development, University of Newcastle Upon Tyne, UK",
     },
     {
       name: "Dr. Pamela C. Rasmussen,",
-      affiliation: "Michigan State University West Circle Drive, East lancing MI 48824-1045",
+      affiliation:
+        "Michigan State University West Circle Drive, East lancing MI 48824-1045",
     },
     {
       name: "Prof. Dr. Mirza Karpas Balg,",
@@ -83,23 +88,28 @@ const editorialData = {
     },
     {
       name: "Prof. Dr. Weijun Guan,",
-      affiliation: "Institute of Animal Sciences, Chinese Academy of Agricultural Sciences, Beijing 100192, China",
+      affiliation:
+        "Institute of Animal Sciences, Chinese Academy of Agricultural Sciences, Beijing 100192, China",
     },
     {
       name: "Prof. Dr. Phil Harris,",
-      affiliation: "Deptt. of Plant Sciences, School of Science & The Environment, Coventry University, UK",
+      affiliation:
+        "Deptt. of Plant Sciences, School of Science & The Environment, Coventry University, UK",
     },
     {
       name: "Dr. Ali Olfati",
-      affiliation: "Department of Animal Science, Faculty of Agriculture, Tabriz, IRAN",
+      affiliation:
+        "Department of Animal Science, Faculty of Agriculture, Tabriz, IRAN",
     },
     {
       name: "Prof. Dr. Zeliha Islamoglu",
-      affiliation: "Faculty of Medicine Balikesir University Halidemir University Campus 512, Turkey\nShoh Akhmet Yassawi International Kazakh-Turkish University, Faculty of Sciences, Department of Biology, Central Campus, Turkes tan, Kazakhstan",
+      affiliation:
+        "Faculty of Medicine Balikesir University Halidemir University Campus 512, Turkey\nShoh Akhmet Yassawi International Kazakh-Turkish University, Faculty of Sciences, Department of Biology, Central Campus, Turkes tan, Kazakhstan",
     },
     {
       name: "Prof. Dr. Tessema (Tess) Aslatkie,",
-      affiliation: "Agriculture House, of Agriculture, Dalhousie University, Truro, NS, B2N 5E3, Canada",
+      affiliation:
+        "Agriculture House, of Agriculture, Dalhousie University, Truro, NS, B2N 5E3, Canada",
     },
     {
       name: "Prof. Dr. Shafqatla Naz,",
@@ -111,7 +121,8 @@ const editorialData = {
     },
     {
       name: "Prof. Dr. Tugay Ayasan,",
-      affiliation: "Osmaniye Korkut Ata University, Kadirli Academy of Applied Sciences, Osmaniye, Turkey",
+      affiliation:
+        "Osmaniye Korkut Ata University, Kadirli Academy of Applied Sciences, Osmaniye, Turkey",
     },
     {
       name: "Prof. Dr. Sun Ming Zhong,",
@@ -127,7 +138,8 @@ const editorialData = {
     },
     {
       name: "Dr. Effa, Emmanuel Bassey",
-      affiliation: "Department of Crop Science, University of Calabar, P.M.B. 1115 Calabar, Nigeria",
+      affiliation:
+        "Department of Crop Science, University of Calabar, P.M.B. 1115 Calabar, Nigeria",
     },
     {
       name: "Prof. Dr. Muhammad Sohail Sajid",
@@ -139,11 +151,13 @@ const editorialData = {
     },
     {
       name: "Dr. Sardar Alam Cheema",
-      affiliation: "Department of Agronomy, University of Agriculture Faisalabad, Pakistan",
+      affiliation:
+        "Department of Agronomy, University of Agriculture Faisalabad, Pakistan",
     },
     {
       name: "Prof. Dr. Umer Farooq",
-      affiliation: "Deptt. of Physiology, Islamia University Bahawalpur, Pakistan",
+      affiliation:
+        "Deptt. of Physiology, Islamia University Bahawalpur, Pakistan",
     },
     {
       name: "Prof. Dr. Zia-ul-hassan Shah",
@@ -163,44 +177,60 @@ const EditorialBoard = () => {
       pairs.push(members.slice(i, i + 2));
     }
     return pairs.map((pair, index) => (
-      <div key={index} className="flex flex-col md:flex-row justify-between mb-2">
+      <div
+        key={index}
+        className="flex flex-col md:flex-row justify-between mb-2"
+      >
         {pair.map((member, subIndex) => (
-          <div key={subIndex} className="p-2 border border-gray-300 w-full md:w-[48%] mb-2 md:mb-0">
+          <div
+            key={subIndex}
+            className="p-2 border border-gray-300 w-full md:w-[48%] mb-2 md:mb-0"
+          >
             {member.title && (
-              <p className="text-blue-800 font-bold text-sm mb-1">{member.title}</p>
+              <p className="text-blue-800 font-bold text-sm mb-1">
+                {member.title}
+              </p>
             )}
             <p className="font-bold text-xs">{member.name}</p>
-            {member.affiliation.split('\n').map((line, lineIndex) => (
-              <p key={lineIndex} className="text-xs">{line}</p>
+            {member.affiliation.split("\n").map((line, lineIndex) => (
+              <p key={lineIndex} className="text-xs">
+                {line}
+              </p>
             ))}
           </div>
         ))}
-        {pair.length < 2 && (
-          <div className="hidden md:block p-2 w-[48%]"></div>
-        )}
+        {pair.length < 2 && <div className="hidden md:block p-2 w-[48%]"></div>}
       </div>
     ));
   };
 
   return (
     <Layout>
-    <div className="p-4 bg-white font-sans text-xs">
-      <div className="bg-blue-800 text-white text-center p-4 mb-4">
-        <h1 className="text-2xl font-bold">EDITORIAL BOARD</h1>
-        <p className="text-base mt-1">{editorialData.chiefEditor.title}</p>
-        <p className="text-xl font-bold mt-1">{editorialData.chiefEditor.name}</p>
-      </div>
+      <div className="bg-[#fdfaf1] p-6 border border-gray-400 rounded-lg shadow-lg relative max-w-4xl w-full">
+        <div className=" text-center p-4 mb-4">
+          <h1 className="text-2xl font-bold text-gray-800 border-b-2 border-orange-500 pb-2 mb-6">
+            EDITORIAL BOARD
+          </h1>
+          <p className="text-base mt-1">{editorialData.chiefEditor.title}</p>
+          <p className="text-xl font-bold mt-1">
+            {editorialData.chiefEditor.name}
+          </p>
+        </div>
 
-      <div className="mb-4">
-        <h2 className="bg-blue-800 text-white text-center font-bold p-2 text-base mb-2">SUBJECT EDITORS</h2>
-        {renderMembers(editorialData.subjectEditors)}
-      </div>
+        <div className="mb-4">
+          <h2 className="bg-blue-800 text-white text-center font-bold p-2 text-base mb-2">
+            SUBJECT EDITORS
+          </h2>
+          {renderMembers(editorialData.subjectEditors)}
+        </div>
 
-      <div>
-        <h2 className="bg-blue-800 text-white text-center font-bold p-2 text-base mb-2">EDITORIAL BOARD MEMBERS</h2>
-        {renderMembers(editorialData.editorialBoardMembers)}
+        <div>
+          <h2 className="bg-blue-800 text-white text-center font-bold p-2 text-base mb-2">
+            EDITORIAL BOARD MEMBERS
+          </h2>
+          {renderMembers(editorialData.editorialBoardMembers)}
+        </div>
       </div>
-    </div>
     </Layout>
   );
 };

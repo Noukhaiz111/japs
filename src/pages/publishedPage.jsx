@@ -1,32 +1,26 @@
-import React from 'react';
-import Layout from './Layout'
-// This is a self-contained component that does not require a separate Layout file.
+import React from "react";
+import Layout from "./Layout";
 const OnlinePublications = () => {
   return (
     <Layout>
-    <div className="font-sans bg-[#f8f4ed] p-5 text-center border border-[#e0d9ce] rounded-lg shadow-lg max-w-2xl mx-auto my-10">
-      <h2 className="text-[#4682b4] text-2xl font-bold mb-2.5">
-        Published Online First
-      </h2>
-      <div className="border-b-2 border-amber-500 w-4/5 mx-auto mb-5"></div>
-      <div className="p-2.5 rounded-md inline-block w-full text-center">
-        <p className="text-[#8b8000] text-3xl font-bold m-0">
-          2025
-        </p>
-      </div>
-      
-      {/* The text is a clickable link with hover effects. */}
-      <a href="/volumes">
-        <p className="text-[#8b8000] text-lg mt-5 underline hover:text-amber-500 transition-colors duration-200">
-          Volume 35, No. (4), 2025, August
-        </p>
-      </a>
+      <div className="bg-[#fdfaf1] p-6 border border-gray-400 rounded-lg shadow-lg relative max-w-4xl w-full">
+        <h2 className="text-2xl font-bold text-gray-800 border-b-2 border-orange-500 pb-2 mb-6">
+          PUBLISHED ONLINE FIRST
+        </h2>
+        <div className="p-2.5 rounded-md inline-block w-full text-center">
+          <p className="text-[#8b8000] text-3xl font-bold m-0">2025</p>
+        </div>
 
-      {/* Watermark-like element */}
-      <div className="mt-7 opacity-10 text-[150px] font-bold text-[#8b8000] pointer-events-none select-none">
-        JAPS
+        <a href="/volumes" className="w-full text-center">
+          <p className="text-[#8b8000] text-lg mt-5 underline hover:text-amber-500 transition-colors duration-200">
+            Volume 35, No. (4), 2025, August
+          </p>
+        </a>
+
+        <div className="mt-7 opacity-10 text-[150px] font-bold text-[#8b8000] pointer-events-none select-none">
+          JAPS
+        </div>
       </div>
-    </div>
     </Layout>
   );
 };
