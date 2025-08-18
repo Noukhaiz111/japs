@@ -19,6 +19,11 @@ import AbstractingIndexingAgencies from "./pages/Abstracting";
 import EditorialBoard from "./pages/editorialBoard";
 import JapsLoginPage from "./pages/japs-login";
 import Abstract from "./pages/abstract";
+import Header from "./layout/Header";
+import UpdateProfile from "./pages/UserProfile";
+import InstitutionDetails from "./pages/UpdateProfile2"
+import DisciplineInterest from "./pages/UserProfile3";
+import Dashboard from "./pages/ProfileFinish";
 
 function App() {
   return (
@@ -38,14 +43,16 @@ function App() {
         <Route path="/archives" element={<JournalArchieves />} />
         <Route path="/ethics" element={<PublicationEthics />} />
         <Route path="/supplementary-series" element={<SupplementarySeries />} />
-        <Route
-          path="/supplementary-archive"
-          element={<SupplementaryArchieve />}
-        />
+        <Route path="/supplementary-archive" element={<SupplementaryArchieve />}/>
         <Route path="/indexing" element={<AbstractingIndexingAgencies />} />
         <Route path="/editorial" element={<EditorialBoard />} />
         <Route path="/japs-login" element={<JapsLoginPage />} />
         <Route path="/abstract" element={<Abstract />} />
+        <Route path="/header" element={<Header/>}/>
+        <Route path="/user-profile" element={<UpdateProfile/>}/>
+           <Route path="/user-profile2" element={<InstitutionDetails/>}/>
+            <Route path="/user-profile3" element={<DisciplineInterest/>}/>
+            <Route path="/profile-finish" element={<Dashboard/>}/>
       </Routes>
     </BrowserRouter>
   );

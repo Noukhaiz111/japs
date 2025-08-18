@@ -263,7 +263,6 @@ const JapsLoginPage = () => {
                   type="text"
                   placeholder="CAPTCHA CODE"
                   className="w-full py-2 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-blue-500 transition-colors"
-                  required
                 />
               </motion.div>
 
@@ -271,14 +270,13 @@ const JapsLoginPage = () => {
                 variants={slideInUpVariants}
                 className="flex justify-end"
               >
-                <motion.button
-                  type="submit"
+                <Link to={"/user-profile"}><motion.button
                   className="bg-blue-600 text-white py-2 px-8 rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors font-medium"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
                   Login
-                </motion.button>
+                </motion.button></Link>
               </motion.div>
             </form>
 
